@@ -2,95 +2,56 @@
 <html lang="ru">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Inventory Rampage — Find Good Set (Web)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+  <title>Inventory Rampage</title>
   <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-  <div class="app">
-    <header>
-      <h1>Inventory Rampage</h1>
-      <p class="sub">Find Good Set · Web-версия</p>
+  <div id="app">
+    <header class="topbar">
+      <div class="logo">⚔️ Rampage</div>
+      <div class="tabs">
+        <button type="button" class="tab active" data-tab="find">Поиск сетов</button>
+        <button type="button" class="tab" data-tab="blacklist">Чёрный список</button>
+        <button type="button" class="tab" data-tab="filters">Диапазоны</button>
+      </div>
     </header>
 
-    <section class="card">
-      <h2>Режим поиска</h2>
-      <div class="row">
-        <label><input type="radio" name="mode" value="damage" checked /> Урон</label>
-        <label><input type="radio" name="mode" value="armor" /> Броня</label>
-      </div>
-      <div class="row">
-        <label>Топ результатов <input type="number" id="topN" value="20" min="1" max="100" /></label>
-        <label><input type="checkbox" id="includeUpcoming" checked /> Включать upcoming</label>
-      </div>
-    </section>
-
-    <section class="card">
-      <h2>Диапазоны (min – max)</h2>
-      <div class="filters" id="filters"></div>
-    </section>
-
-    <section class="card">
-      <h2>Чёрный список</h2>
-      <div class="blacklist-block">
-        <h3>Предметы</h3>
-        <div class="row">
-          <input type="text" id="bl-item" placeholder="Название предмета" />
-          <button type="button" data-add="items">+</button>
+    <main class="content">
+      <section id="tab-find" class="panel active">
+        <div class="mode-row">
+          <button type="button" class="mode-btn active" data-mode="damage">Урон</button>
+          <button type="button" class="mode-btn" data-mode="armor">Броня</button>
         </div>
-        <div class="tags" id="tags-items"></div>
-      </div>
-      <div class="blacklist-block">
-        <h3>Тоники</h3>
-        <div class="row">
-          <input type="text" id="bl-tonic" placeholder="Название тоника" />
-          <button type="button" data-add="tonics">+</button>
+        <div class="options-row">
+          <label>Топ <input type="number" id="topN" value="20" min="1" max="50" /></label>
+          <label class="chk"><input type="checkbox" id="includeUpcoming" checked /> Upcoming</label>
         </div>
-        <div class="tags" id="tags-tonics"></div>
-      </div>
-      <div class="blacklist-block">
-        <h3>Классы</h3>
-        <div class="row">
-          <input type="text" id="bl-class" placeholder="Название класса" />
-          <button type="button" data-add="classes">+</button>
+        <button type="button" id="btnSearch" class="btn-primary">🔍 Найти сеты</button>
+        <div id="status" class="status" hidden></div>
+        <div id="results" class="results"></div>
+      </section>
+
+      <section id="tab-blacklist" class="panel">
+        <div class="bl-cats">
+          <button type="button" class="bl-cat active" data-bl="items">Предметы</button>
+          <button type="button" class="bl-cat" data-bl="tonics">Тоники</button>
+          <button type="button" class="bl-cat" data-bl="classes">Классы</button>
+          <button type="button" class="bl-cat" data-bl="elements">Элементы</button>
         </div>
-        <div class="tags" id="tags-classes"></div>
-      </div>
-      <div class="blacklist-block">
-        <h3>Элементы</h3>
-        <div class="row">
-          <input type="text" id="bl-element" placeholder="darkness / fire / …" />
-          <button type="button" data-add="elements">+</button>
+        <div class="search-wrap">
+          <input type="search" id="blSearch" placeholder="Поиск… (катак → Доспех Катаклизма)" autocomplete="off" />
         </div>
-        <div class="tags" id="tags-elements"></div>
-      </div>
-    </section>
+        <div class="selected-tags" id="selectedTags"></div>
+        <div class="picker" id="picker"></div>
+      </section>
 
-    <section class="card">
-      <h2>Данные</h2>
-      <p class="hint">Вставь JSON с предметами / классами / тониками или загрузи файл. Формат совместим с приложением.</p>
-      <textarea id="dataJson" rows="8" placeholder='{"items":[...],"classes":[...],"beverages":[...]}'></textarea>
-      <div class="row">
-        <input type="file" id="fileInput" accept=".json,application/json" />
-        <button type="button" id="loadDemo">Демо-данные</button>
-      </div>
-    </section>
-
-    <div class="actions">
-      <button type="button" id="btnSearch" class="primary">Искать сеты</button>
-      <button type="button" id="btnClear">Очистить результаты</button>
-    </div>
-
-    <section class="card" id="statusCard" hidden>
-      <p id="status"></p>
-    </section>
-
-    <section class="card" id="resultsCard" hidden>
-      <h2>Результаты <span id="resultsMeta"></span></h2>
-      <div id="results"></div>
-    </section>
+      <section id="tab-filters" class="panel">
+        <div id="filtersList" class="filters-list"></div>
+        <p class="hint">Пустое поле = без ограничения. Можно листать список предметов и нажимать — не обязательно вводить имя.</p>
+      </section>
+    </main>
   </div>
-
   <script src="app.js"></script>
 </body>
 </html>
