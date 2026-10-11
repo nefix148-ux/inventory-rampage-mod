@@ -1,2 +1,46 @@
-# inventory-rampage-mod
-Modified Inventory Rampager for Magic Rampage — blacklist (items, tonics, classes, elements) + min/max ranges for damage, armor, speed, jump, explosion, projectile. Menu via Крыса.
+# Inventory Rampage Mod
+
+Модифицированный **Inventory Rampager** для Magic Rampage.
+
+**Репозиторий:** https://github.com/nefix148-ux/inventory-rampage-mod (публичный)
+
+## Что добавлено
+
+- **Чёрный список** предметов (оружие / броня / кольца), тоников, классов и элементов
+- Возможность **убирать** элементы из чёрного списка
+- **Диапазоны min–max** вместо «только максимум»:
+  - урон
+  - броня
+  - % скорости
+  - импульс прыжка
+  - радиус взрыва
+  - скорость снаряда
+- Мульти-выбор параметров перед поиском
+
+Меню открывается при нажатии на «Крысу» (Find Good Set).
+
+## Структура
+
+```
+extracted/          # Извлечённые ассеты из APK
+src/
+  find-good-set.worker.clean.js   ← новый воркер со всеми фичами
+  find-good-set.worker.deob.js    ← частичный разбор оригинала
+docs/
+  NOTES.md
+  INTEGRATION.md                  ← как заменить воркер в APK
+patches/
+```
+
+## Статус
+
+- [x] Извлечение ключевых файлов
+- [x] Частичная деобфускация
+- [x] Чистый воркер с blacklist + ranges + remove
+- [x] Портирован реальный расчёт armor/damage
+- [ ] UI-панель для blacklist и диапазонов
+- [ ] Полная инструкция по сборке APK
+
+## Быстрый старт
+
+Смотри `docs/INTEGRATION.md` — там как подменить воркер.
